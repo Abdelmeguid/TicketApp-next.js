@@ -1,89 +1,55 @@
-// // This is your Prisma schema file,
-// // learn more about it in the docs: https://pris.ly/d/prisma-schema
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// generator client {
-//   provider = "prisma-client-js"
-// }
+generator client {
+  provider = "prisma-client-js"
+}
 
-// datasource db {
-//   provider     = "mysql"
-//   url          = env("DATABASE_URL")
-//   relationMode = "prisma"
-// }
-
-// model Ticket {
-//   id               Int      @id @default(autoincrement())
-//   title            String   @db.VarChar(255)
-//   description      String   @db.Text
-//   status           Status   @default(OPEN)
-//   priority         Priority @default(MEDIUM)
-//   createdAt        DateTime @default(now())
-//   updatedAt        DateTime @updatedAt
-//   //Int?: The data type for the assignedToUserId field, which is an optional integer (nullable). CGPt
-//   assignedToUserId Int?
-//   //from below you can find all data of the user which assigned to him the ticket like his username and his name 
-//   assignedToUser   User?    @relation(fields: [assignedToUserId], references: [id])
-//   assignedToUserName String?
-// }
-
-// enum Status {
-//   OPEN
-//   STARTED
-//   CLOSED
-// }
-
-// enum Priority {
-//   LOW
-//   MEDIUM
-//   HIGH
-// }
-
-// model User {
-//   id              Int      @id @default(autoincrement())
-//   name            String
-//   username        String   @unique
-//   password        String
-//   role            Role     @default(USER)
-//   assignedTickets Ticket[]
-// }
-
-// enum Role {
-//   ADMIN
-//   TECH
-//   USER
-// }
-
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
 
 model Ticket {
   id               Int      @id @default(autoincrement())
-  title            String   // No need for @db.VarChar(255) if your database doesn't support native types
-  description      String   // String type is enough here, Prisma will map it to the appropriate type
+  title            String   @db.VarChar(255)
+  description      String   @db.Text
   status           Status   @default(OPEN)
   priority         Priority @default(MEDIUM)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
-  assignedToUserId Int?     // Optional field to store the ID of the assigned user
+  //Int?: The data type for the assignedToUserId field, which is an optional integer (nullable). CGPt
+  assignedToUserId Int?
+  //from below you can find all data of the user which assigned to him the ticket like his username and his name 
   assignedToUser   User?    @relation(fields: [assignedToUserId], references: [id])
+  assignedToUserName String?
 }
 
-/// Model for Users, ensuring you have a reference to assign tickets
-model User {
-  id       Int      @id @default(autoincrement())
-  username String   @unique
-  name     String?
-  tickets  Ticket[] // Relation back to tickets assigned to this user
-}
-
-/// Enum for the status of the ticket
 enum Status {
   OPEN
+  STARTED
   CLOSED
-  IN_PROGRESS
 }
 
-/// Enum for the priority of the ticket
 enum Priority {
   LOW
   MEDIUM
   HIGH
 }
+
+model User {
+  id              Int      @id @default(autoincrement())
+  name            String
+  username        String   @unique
+  password        String
+  role            Role     @default(USER)
+  assignedTickets Ticket[]
+}
+
+enum Role {
+  ADMIN
+  TECH
+  USER
+}
+
