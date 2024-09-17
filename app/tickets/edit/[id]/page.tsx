@@ -10,6 +10,7 @@
 //   ssr: false,
 // });
 
+
 // const EditTicket = async ({ params }: Props) => {
 //   const ticket = await prisma?.ticket.findUnique({
 //     where: { id: parseInt(params.id) },
@@ -27,7 +28,7 @@
 
 import dynamic from "next/dynamic";
 import React from "react";
-import prisma from "@/prisma/db"; // Ensure Prisma is correctly imported
+// import prisma from "@/prisma/db"; // Ensure Prisma is correctly imported
 
 interface Props {
   params: { id: string };
@@ -37,12 +38,18 @@ interface Props {
 const TicketForm = dynamic(() => import("@/components/TicketForm"), {
   ssr: false, // This ensures the component is only rendered on the client side
 });
+//////////////////////////////////////////////////////////////////////////////
+//  note : we can write (import TicketForm from "@/components/TicketForm";) //
+//  but above approach grantee the ssr false this mean this                 //
+//  page will not load in fires t render that improve performance           //
+//////////////////////////////////////////////////////////////////////////////
 
 const EditTicket = async ({ params }: Props) => {
   try {
     // Validate and parse the ticket ID from params
     const ticketId = parseInt(params.id, 10);
 
+    ///Checks if the conversion to an integer failed using isNaN(NAN is shorthand for (not a number)) as below
     if (isNaN(ticketId)) {
       return <p className="text-destructive">Invalid Ticket ID.</p>;
     }
