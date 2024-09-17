@@ -28,7 +28,7 @@
 
 import dynamic from "next/dynamic";
 import React from "react";
-// import prisma from "@/prisma/db"; // Ensure Prisma is correctly imported
+import prisma from "@/prisma/db"; // Ensure Prisma is correctly imported
 
 interface Props {
   params: { id: string };
