@@ -1,5 +1,5 @@
 "use client";
-
+import prisma from "@/prisma/db"; // Ensure Prisma is correctly imported
 import { Ticket, User } from "@prisma/client";
 import React from "react";
 import { useState } from "react";

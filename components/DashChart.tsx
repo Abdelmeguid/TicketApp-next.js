@@ -1,5 +1,6 @@
 "use client";
 
+import prisma from "@/prisma/db"; // Ensure Prisma is correctly imported
 import { Status } from "@prisma/client";
 import React from "react";
 import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis } from "recharts";
